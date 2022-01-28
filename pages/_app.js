@@ -11,6 +11,11 @@ import "../styles/style.css";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
+import { Amplify } from "aws-amplify";
+import awsExports from "../src/aws-exports";
+
+Amplify.configure({ ...awsExports, ssr: true });
+
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
