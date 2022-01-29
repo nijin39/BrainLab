@@ -5,6 +5,21 @@ const Menuitems = [
     href: "/",
   },
   {
+    title: "Reservations",
+    icon: "edit",
+    href: "/reservations",
+  },
+  {
+    title: "Check Reservations",
+    icon: "check-square",
+    href: "/checkin",
+  },
+  {
+    title: "Calendar",
+    icon: "calendar",
+    href: "/calendar",
+  },
+  {
     title: "Buttons",
     icon: "disc",
     href: "/buttons",
