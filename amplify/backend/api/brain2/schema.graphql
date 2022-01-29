@@ -1,0 +1,14 @@
+type Reservation @model @auth(rules: [{allow: public}]) @key(name: "byCustomer", fields: ["customerID"]) {
+  id: ID!
+  reservationDate: AWSDate
+  reservationTime: AWSTime
+  customerID: ID
+}
+
+type Customer @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  email: AWSEmail
+  gender: String
+  Reservations: [Reservation] @connection(keyName: "byCustomer", fields: ["id"])
+}

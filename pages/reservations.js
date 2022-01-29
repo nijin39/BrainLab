@@ -18,6 +18,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import MyReservationList from "../src/components/dashboard/MyReservationList";
+import { DataStore } from "@aws-amplify/datastore";
+import { Customer } from "../src/models";
 
 const Forms = () => {
   const [value, setValue] = useState(new Date());
@@ -29,6 +31,19 @@ const Forms = () => {
 
   const handleChange = (newValue) => {
     setValue(newValue);
+  };
+
+  const saveCustomer = async () => {
+    await DataStore.save(
+      new Customer({
+        name: "Kim Jong IL",
+        email: "nijinwork@gmail.com",
+        gender: "male",
+      })
+    );
+
+    const models = await DataStore.query(Customer);
+    console.log(models);
   };
 
   return (
@@ -88,7 +103,13 @@ const Forms = () => {
             </FormControl>
           </Stack>
           <br />
-          <Button variant="contained" mt={2}>
+          <Button
+            variant="contained"
+            mt={2}
+            onClick={() => {
+              saveCustomer();
+            }}
+          >
             Submit
           </Button>
         </BaseCard>
