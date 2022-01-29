@@ -57,7 +57,7 @@ const reservations = [
 
 const ReservationList = () => {
   return (
-    <BaseCard title="Reservation List">
+    <BaseCard title="예약 리스트">
       <Table
         aria-label="simple table"
         sx={{
