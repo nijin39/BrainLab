@@ -29,6 +29,11 @@ const Menuitems = [
     icon: "trending-up",
     href: "/settlement",
   }, //settlement
+  {
+    title: "Doctor",
+    icon: "user",
+    href: "/doctor",
+  }, //settlement
 ];
 
 export default Menuitems;

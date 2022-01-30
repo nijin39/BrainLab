@@ -11,6 +11,16 @@ const Tables = () => {
         <BaseCard title="예약 캘린더">
           <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
         </BaseCard>
+        <BaseCard title="구글 캘린더">
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=qn9s35lejhh71h3qauc6oj806o%40group.calendar.google.com&ctz=Asia%2FSeoul"
+            // style="border: 0"
+            width="100%"
+            height="600"
+            // frameborder="0"
+            scrolling="no"
+          ></iframe>
+        </BaseCard>
       </Grid>
     </Grid>
   );
