@@ -20,8 +20,11 @@ import Select from "@mui/material/Select";
 import MyReservationList from "../src/components/dashboard/MyReservationList";
 import { DataStore } from "@aws-amplify/datastore";
 import { Customer } from "../src/models";
+import { API, graphqlOperation } from "aws-amplify";
+import { createCustomer } from "../src/graphql/mutations";
+import { listCustomers } from "../src/graphql/queries";
 
-const Forms = () => {
+const Reservations = () => {
   const [value, setValue] = useState(new Date());
   const [time, setTime] = useState("");
 
@@ -34,16 +37,31 @@ const Forms = () => {
   };
 
   const saveCustomer = async () => {
-    await DataStore.save(
-      new Customer({
-        name: "Kim Jong IL",
-        email: "nijinwork@gmail.com",
-        gender: "male",
-      })
-    );
+    try {
+      await API.graphql(
+        graphqlOperation(createCustomer, {
+          input: { name: "test", email: "nijinwork@gmail.com", gender: "male" },
+        })
+      );
+    } catch (e) {
+      alert(e.errors[0].errorType);
+    }
 
-    const models = await DataStore.query(Customer);
-    console.log(models);
+    // DataStore.save(
+    //   new Customer({
+    //     name: "Kim Jong IL",
+    //     email: "nijinwork@gmail.com",
+    //     gender: "male",
+    //   })
+    // )
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((e) => console.log("ERROR"));
+
+    // const models = await DataStore.query(Customer);
+    const customers = await API.graphql(graphqlOperation(listCustomers));
+    console.log(customers);
   };
 
   return (
@@ -120,4 +138,4 @@ const Forms = () => {
   );
 };
 
-export default Forms;
+export default Reservations;
