@@ -8,9 +8,13 @@ export const createReservation = /* GraphQL */ `
   ) {
     createReservation(input: $input, condition: $condition) {
       id
-      reservationDate
+      name
+      email
+      reason
+      gender
       reservationTime
       customerID
+      reservationDate
       _version
       _deleted
       _lastChangedAt
@@ -26,9 +30,13 @@ export const updateReservation = /* GraphQL */ `
   ) {
     updateReservation(input: $input, condition: $condition) {
       id
-      reservationDate
+      name
+      email
+      reason
+      gender
       reservationTime
       customerID
+      reservationDate
       _version
       _deleted
       _lastChangedAt
@@ -44,9 +52,13 @@ export const deleteReservation = /* GraphQL */ `
   ) {
     deleteReservation(input: $input, condition: $condition) {
       id
-      reservationDate
+      name
+      email
+      reason
+      gender
       reservationTime
       customerID
+      reservationDate
       _version
       _deleted
       _lastChangedAt

@@ -5,9 +5,13 @@ export const getReservation = /* GraphQL */ `
   query GetReservation($id: ID!) {
     getReservation(id: $id) {
       id
-      reservationDate
+      name
+      email
+      reason
+      gender
       reservationTime
       customerID
+      reservationDate
       _version
       _deleted
       _lastChangedAt
@@ -25,9 +29,50 @@ export const listReservations = /* GraphQL */ `
     listReservations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        reservationDate
+        name
+        email
+        reason
+        gender
         reservationTime
         customerID
+        reservationDate
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const itemsByNameDateTime = /* GraphQL */ `
+  query ItemsByNameDateTime(
+    $name: String
+    $reservationDateReservationTime: ModelReservationByNameDateTimeCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelReservationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    itemsByNameDateTime(
+      name: $name
+      reservationDateReservationTime: $reservationDateReservationTime
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        email
+        reason
+        gender
+        reservationTime
+        customerID
+        reservationDate
         _version
         _deleted
         _lastChangedAt
@@ -54,9 +99,13 @@ export const syncReservations = /* GraphQL */ `
     ) {
       items {
         id
-        reservationDate
+        name
+        email
+        reason
+        gender
         reservationTime
         customerID
+        reservationDate
         _version
         _deleted
         _lastChangedAt

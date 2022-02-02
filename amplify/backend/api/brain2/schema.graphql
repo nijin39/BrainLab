@@ -1,11 +1,20 @@
 type Reservation
   @model
   @auth(rules: [{ allow: public }])
-  @key(name: "byCustomer", fields: ["customerID"]) {
+  @key(name: "byCustomer", fields: ["customerID"])
+  @key(
+    name: "byNameDateTime",
+    fields: ["name", "reservationDate", "reservationTime"],
+    queryField: "itemsByNameDateTime"
+  ) {
   id: ID!
-  reservationDate: AWSDate
+  name: String
+  email: String
+  reason: String
+  gender: String
   reservationTime: AWSTime
   customerID: ID
+  reservationDate: AWSDate
 }
 
 type Customer @model @auth(rules: [{ allow: public }]) @key(fields: ["name"]) {

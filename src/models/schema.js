@@ -10,10 +10,31 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "reservationDate": {
-                    "name": "reservationDate",
+                "name": {
+                    "name": "name",
                     "isArray": false,
-                    "type": "AWSDate",
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "reason": {
+                    "name": "reason",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "gender": {
+                    "name": "gender",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -28,6 +49,13 @@ export const schema = {
                     "name": "customerID",
                     "isArray": false,
                     "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "reservationDate": {
+                    "name": "reservationDate",
+                    "isArray": false,
+                    "type": "AWSDate",
                     "isRequired": false,
                     "attributes": []
                 }
@@ -46,6 +74,18 @@ export const schema = {
                         "fields": [
                             "customerID"
                         ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byNameDateTime",
+                        "fields": [
+                            "name",
+                            "reservationDate",
+                            "reservationTime"
+                        ],
+                        "queryField": "itemsByNameDateTime"
                     }
                 },
                 {
@@ -80,7 +120,7 @@ export const schema = {
                     "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "email": {
@@ -120,6 +160,14 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "name"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -140,5 +188,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "5f9543f34c7b4134f5925a58661ef12a"
+    "version": "f17d87f1e9ead3d81c45785e851d01c3"
 };

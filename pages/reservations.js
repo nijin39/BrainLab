@@ -21,30 +21,75 @@ import MyReservationList from "../src/components/dashboard/MyReservationList";
 import { DataStore } from "@aws-amplify/datastore";
 import { Customer } from "../src/models";
 import { API, graphqlOperation } from "aws-amplify";
-import { createCustomer } from "../src/graphql/mutations";
-import { listCustomers } from "../src/graphql/queries";
+import { Auth } from "aws-amplify";
+import { createCustomer, createReservation } from "../src/graphql/mutations";
+import { listCustomers, getCustomer } from "../src/graphql/queries";
 
 const Reservations = () => {
-  const [value, setValue] = useState(new Date());
+  const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [reason, setReason] = useState("");
+  const [gender, setGender] = useState("female");
 
-  const handleTimeChange = (event) => {
+  const handleName = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleReason = (event) => {
+    setReason(event.target.value);
+  };
+
+  const handleGender = (event) => {
+    setGender(event.target.value);
+  };
+
+  const handleTime = (event) => {
     setTime(event.target.value);
   };
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
+  const handleDate = (event) => {
+    setDate(event.format("YYYY-MM-DD"));
   };
 
   const saveCustomer = async () => {
     try {
-      await API.graphql(
-        graphqlOperation(createCustomer, {
-          input: { name: "test", email: "nijinwork@gmail.com", gender: "male" },
+      // await API.graphql(
+      //   graphqlOperation(createCustomer, {
+      //     input: { name: "test", email: "nijinwork@gmail.com", gender: "male" },
+      //   })
+      // );
+      const currentUser = await Auth.currentAuthenticatedUser();
+
+      const customer = await API.graphql(
+        graphqlOperation(getCustomer, {
+          name: currentUser.username,
         })
       );
+
+      const reservation = await API.graphql(
+        graphqlOperation(createReservation, {
+          input: {
+            customerID: customer.data.getCustomer.id,
+            name: name,
+            email: email,
+            reason: reason,
+            gender: gender,
+            reservationDate: date,
+            reservationTime: time,
+          },
+        })
+      );
+
+      console.log(customer);
     } catch (e) {
-      alert(e.errors[0].errorType);
+      //alert(e.errors[0].errorType);
+      console.error(e);
     }
 
     // DataStore.save(
@@ -69,16 +114,32 @@ const Reservations = () => {
       <Grid item xs={12} lg={12}>
         <BaseCard title="예약 정보">
           <Stack spacing={3}>
-            <TextField id="name" label="이름" variant="outlined" />
-            <TextField id="email" label="이메일" variant="outlined" />
-            <TextField id="reason" label="예약 목적" multiline rows={4} />
+            <TextField
+              id="name"
+              label="이름"
+              variant="outlined"
+              onChange={handleName}
+            />
+            <TextField
+              id="email"
+              label="이메일"
+              variant="outlined"
+              onChange={handleEmail}
+            />
+            <TextField
+              id="reason"
+              label="예약 목적"
+              multiline
+              rows={4}
+              onChange={handleReason}
+            />
             <LocalizationProvider dateAdapter={DateAdapter}>
               <Stack spacing={3}>
                 <DesktopDatePicker
                   label="날짜"
                   inputFormat="yyyy/MM/DD"
-                  value={value}
-                  onChange={handleChange}
+                  value={date}
+                  onChange={handleDate}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </Stack>
@@ -90,14 +151,14 @@ const Reservations = () => {
                 id="time-select"
                 value={time}
                 label="Time"
-                onChange={handleTimeChange}
+                onChange={handleTime}
               >
-                <MenuItem value={8}>08:00</MenuItem>
-                <MenuItem value={10}>10:00</MenuItem>
-                <MenuItem value={12}>12:00</MenuItem>
-                <MenuItem value={14}>14:00</MenuItem>
-                <MenuItem value={16}>16:00</MenuItem>
-                <MenuItem value={18}>18:00</MenuItem>
+                <MenuItem value={"08:00:00"}>08:00</MenuItem>
+                <MenuItem value={"10:00:00"}>10:00</MenuItem>
+                <MenuItem value={"12:00:00"}>12:00</MenuItem>
+                <MenuItem value={"14:00:00"}>14:00</MenuItem>
+                <MenuItem value={"16:00:00"}>16:00</MenuItem>
+                <MenuItem value={"18:00:00"}>18:00</MenuItem>
               </Select>
             </FormControl>
             <FormControl>
@@ -106,6 +167,8 @@ const Reservations = () => {
                 aria-labelledby="gender-group-label"
                 defaultValue="female"
                 name="gender-group"
+                value={gender}
+                onChange={handleGender}
               >
                 <FormControlLabel
                   value="female"
