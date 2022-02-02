@@ -10,13 +10,15 @@ import FullLayout from "../src/layouts/FullLayout";
 import "../styles/style.css";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
+import { withAuthenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
 
 import { Amplify } from "aws-amplify";
 import awsExports from "../src/aws-exports";
 
 Amplify.configure({ ...awsExports, ssr: true });
 
-export default function MyApp(props) {
+export function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
@@ -40,3 +42,5 @@ MyApp.propTypes = {
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
 };
+
+export default withAuthenticator(MyApp);
