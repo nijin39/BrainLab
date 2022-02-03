@@ -13,8 +13,23 @@ import {
   Button,
   Divider,
 } from "@mui/material";
+import { Auth } from "aws-amplify";
+import { useRouter } from "next/router";
+
 const ProfileDD = () => {
+  const router = useRouter();
+
   const [anchorEl4, setAnchorEl4] = React.useState(null);
+  const [user, setUser] = React.useState();
+
+  async function fetchAndSetUser() {
+    const data = await Auth.currentAuthenticatedUser();
+    setUser(data.username);
+  }
+
+  React.useEffect(() => {
+    fetchAndSetUser();
+  });
 
   const handleClick4 = (event) => {
     setAnchorEl4(event.currentTarget);
@@ -22,6 +37,15 @@ const ProfileDD = () => {
 
   const handleClose4 = () => {
     setAnchorEl4(null);
+  };
+
+  const signOut = async () => {
+    try {
+      await Auth.signOut();
+      router.push("/");
+    } catch (error) {
+      console.log("error signing out: ", error);
+    }
   };
   return (
     <>
@@ -64,7 +88,7 @@ const ProfileDD = () => {
                 ml: 1,
               }}
             >
-              Julia
+              {user}
             </Typography>
             <FeatherIcon icon="chevron-down" width="20" height="20" />
           </Box>
@@ -106,7 +130,12 @@ const ProfileDD = () => {
           <Divider />
           <Box p={2}>
             <Link to="/">
-              <Button fullWidth variant="contained" color="primary">
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={signOut}
+              >
                 Logout
               </Button>
             </Link>
@@ -116,5 +145,17 @@ const ProfileDD = () => {
     </>
   );
 };
+
+// This gets called on every request
+// export async function getServerSideProps() {
+//   // Fetch data from external API
+//   const res = await Auth.currentSession();
+//   const data = await res.json();
+
+//   console.log("res");
+
+//   // Pass data to the page via props
+//   return { props: { data } };
+// }
 
 export default ProfileDD;

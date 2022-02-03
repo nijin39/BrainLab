@@ -5,45 +5,35 @@ const Menuitems = [
     href: "/",
   },
   {
-    title: "Reservation",
+    title: "Reservations",
     icon: "edit",
-    href: "/reservation",
+    href: "/reservations",
   },
   {
-    title: "Buttons",
-    icon: "disc",
-    href: "/buttons",
+    title: "Check Reservations",
+    icon: "check-square",
+    href: "/checkin",
   },
   {
-    title: "Forms",
-    icon: "layout",
-    href: "/forms",
+    title: "Consulting",
+    icon: "coffee",
+    href: "/consulting",
   },
   {
-    title: "Alerts",
-    icon: "info",
-    href: "/alerts",
-  },
+    title: "Calendar",
+    icon: "calendar",
+    href: "/calendar",
+  }, //settlement
   {
-    title: "Ratings",
-    icon: "star",
-    href: "/rating",
-  },
+    title: "Settlement",
+    icon: "trending-up",
+    href: "/settlement",
+  }, //settlement
   {
-    title: "Images",
-    icon: "image",
-    href: "/image",
-  },
-  {
-    title: "Pagination",
+    title: "Doctor",
     icon: "user",
-    href: "/pagination",
-  },
-  {
-    title: "Tables",
-    icon: "grid",
-    href: "/table",
-  },
+    href: "/doctor",
+  }, //settlement
 ];
 
 export default Menuitems;

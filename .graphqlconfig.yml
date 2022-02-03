@@ -13,3 +13,4 @@ projects:
         region: ap-northeast-2
         apiId: null
         maxDepth: 2
+        version: 3
