@@ -5,6 +5,11 @@ const Menuitems = [
     href: "/",
   },
   {
+    title: "Reservation",
+    icon: "edit",
+    href: "/reservation",
+  },
+  {
     title: "Buttons",
     icon: "disc",
     href: "/buttons",
