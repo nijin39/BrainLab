@@ -23,7 +23,11 @@ import { Customer } from "../src/models";
 import { API, graphqlOperation } from "aws-amplify";
 import { Auth } from "aws-amplify";
 import { createCustomer, createReservation } from "../src/graphql/mutations";
-import { listCustomers, getCustomer } from "../src/graphql/queries";
+import {
+  listCustomers,
+  getCustomer,
+  itemsByNameDateTime,
+} from "../src/graphql/queries";
 
 const Reservations = () => {
   const [date, setDate] = useState(new Date());
@@ -72,21 +76,33 @@ const Reservations = () => {
         })
       );
 
-      const reservation = await API.graphql(
-        graphqlOperation(createReservation, {
-          input: {
-            customerID: customer.data.getCustomer.id,
-            name: name,
-            email: email,
-            reason: reason,
-            gender: gender,
-            reservationDate: date,
-            reservationTime: time,
+      // const reservation = await API.graphql(
+      //   graphqlOperation(createReservation, {
+      //     input: {
+      //       customerID: customer.data.getCustomer.id,
+      //       name: name,
+      //       email: email,
+      //       reason: reason,
+      //       gender: gender,
+      //       reservationDate: date,
+      //       reservationTime: time,
+      //     },
+      //   })
+      // );
+
+      const reservations = await API.graphql(
+        graphqlOperation(itemsByNameDateTime, {
+          name: "김종일",
+          reservationDateReservationTime: {
+            eq: { 
+              reservationDate: "2022-02-09",
+              reservationTime: "08:00:00" 
+            },
           },
         })
       );
 
-      console.log(customer);
+      console.log(reservations);
     } catch (e) {
       //alert(e.errors[0].errorType);
       console.error(e);
@@ -105,8 +121,6 @@ const Reservations = () => {
     //   .catch((e) => console.log("ERROR"));
 
     // const models = await DataStore.query(Customer);
-    const customers = await API.graphql(graphqlOperation(listCustomers));
-    console.log(customers);
   };
 
   return (
